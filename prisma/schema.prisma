@@ -1,0 +1,59 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              Int               @id @default(autoincrement()) @map("id")
+  username        String            @unique @map("username")
+  email           String            @unique @map("email")
+  password        String            @map("password")
+  messages        Message[]
+  chats           Chat[]            @relation("ChatParticipants")
+  ChatParticipant ChatParticipant[]
+
+  @@map("users")
+}
+
+model Chat {
+  id              Int               @id @default(autoincrement()) @map("id")
+  name            String?           @map("name")
+  messages        Message[]
+  participants    User[]            @relation("ChatParticipants")
+  ChatParticipant ChatParticipant[]
+
+  @@map("chats")
+}
+
+model Message {
+  id        Int      @id @default(autoincrement()) @map("id")
+  content   String   @map("content")
+  createdAt DateTime @default(now()) @map("created_at")
+  chatId    Int      @map("chat_id")
+  chat      Chat     @relation(fields: [chatId], references: [id])
+  userId    Int      @map("user_id")
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@map("messages")
+}
+
+model ChatParticipant {
+  chatId   Int
+  chat     Chat     @relation(fields: [chatId], references: [id])
+  userId   Int
+  user     User     @relation(fields: [userId], references: [id])
+  joinedAt DateTime @default(now()) @map("joined_at")
+
+  @@id([chatId, userId])
+  @@map("chat_participants")
+}
