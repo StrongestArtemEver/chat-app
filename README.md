@@ -34,6 +34,10 @@ messenger-app
 └── package.json
 ```
 
+## Схема базы данных
+
+<img src="./src/prisma/image.png" alt="Схема базы данных" >
+
 ## Установка и запуск
 
 ### Требования
