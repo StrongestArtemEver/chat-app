@@ -23,4 +23,8 @@ export class UserService {
       where: { username },
     });
   }
+
+  async getUsers() {
+    return this.prisma.user.findMany();
+  }
 }
