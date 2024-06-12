@@ -15,4 +15,9 @@ export class UserController {
   async getUserById(@Param('id') id: string): Promise<User | null> {
     return this.userService.getUserById(Number(id));
   }
+
+  @Get('name/:name')
+  async getUsersByName(@Param('name') name: string): Promise<User[]> {
+    return this.userService.getUsersByName(name);
+  }
 }

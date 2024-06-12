@@ -4,6 +4,7 @@ import { UserModule } from './user/user.module';
 import { ChatsModule } from './chats/chats.module';
 import { MessagesModule } from './messages/messages.module';
 import { ConfigModule } from '@nestjs/config';
+import { PrismaService } from './prisma/prisma.service';
 
 @Module({
   imports: [
@@ -16,5 +17,6 @@ import { ConfigModule } from '@nestjs/config';
       envFilePath: '.env',
     }),
   ],
+  providers: [PrismaService],
 })
 export class AppModule {}
